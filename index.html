@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+Edit Here:
+<div id="edit" contenteditable="true"></div>
+
+<script>
+var edit = document.getElementById('edit');
+edit.innerHTML = localStorage.getItem('edit');
+edit.addEventListener('blur', function(){
+localStorage.setItem('edit', this.innerHTML);
+})};
+</script>
+
+
+</body>
+</html>
