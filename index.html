@@ -1,60 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
+  <body>
+    <p id="food"></p>
 
-.active, .collapsible:hover {
-  background-color: #555;
-}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+    <script type="text/javascript">
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB4E_6RnpLP1wWMjqcwsUvotNATB8Np3OntlXb7066ULcAHI9oqqRhucltFifPTYNd7DRNRE56oTdt/pub?output=csv';
 
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
-</style>
-</head>
-<body>
-<p>Hello World.</p>
+      function init() {
+        Papa.parse(public_spreadsheet_url, {
+          download: true,
+          header: true,
+          complete: showInfo
+        })
+      }
 
-<h2>Collapsibles</h2>
+      window.addEventListener('DOMContentLoaded', init)
 
-<p>A Collapsible:</p>
-<button type="button" class="collapsible">Open Collapsible</button>
-<div class="content">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-</div>
+      function showInfo(results) {
+        var data = results.data
 
+        // data comes through as a simple array since simpleSheet is turned on
+        alert("Successfully processed " + data.length + " rows!")
+        document.getElementById("food").innerHTML = "<strong>Foods:</strong> " + [ data[0].Name, data[1].Name, data[2].Name ].join(", ");
+        console.log(data);
+      }
 
-<script>
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-}
-</script>
-
-</body>
+      document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");        
+    </script>
+    <p><strong>This example is only going to work if it's on the internet or on a local server!</strong> To run a local server, run "terminal" or "command prompt" and run the command <code>python -m http.server</code> or <code>python -m SimpleHTTPServer</code> (whichever one works, really, and you might even need to <a href="http://littlecolumns.com/tools/python-wrangler/">install Python</a>). Then visit <a href="http://localhost:8000/">http://localhost:8000</a> and you'll be all set.</p>
+  </body>
 </html>
